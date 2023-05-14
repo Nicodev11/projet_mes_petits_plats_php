@@ -2,6 +2,11 @@
 
 require_once 'lib/pdo.php';
 require_once 'lib//user.php';
+session_start();
+
+if (isset($_SESSION['user'])) {
+  header("location: profil.php");
+}
 
 if (!empty($_POST)) {
   if (isset($_POST["lastname"], $_POST["firstname"], $_POST["email"], $_POST["password"],$_POST["city"]) &&
@@ -31,22 +36,20 @@ if (!empty($_POST)) {
         # code message flash pour indiquer qu'un problème est survenu
     }
     
-    saveUser($pdo, $_POST["lastname"], $_POST["firstname"], $_POST["email"], $passwordHash, $_POST["city"]);
+    saveUser($pdo, $_POST["firstname"], $_POST["lastname"], $_POST["email"], $passwordHash, $_POST["city"]);
 
     $id = $pdo->lastInsertId();
-
-    
 
     $_SESSION['user'] = [
       'id' => $id,
       'firstname' => $firstname,
       'lastname' => $lastname,
-      'email' => $_POST['email'],
+      'email' => $email,
       'city' => $city,
       'role' => ['ROLE_USER'],
     ];
     
-    # header("location: profil.php");
+    header("location: showRecipes.php");
 
   } else {
     

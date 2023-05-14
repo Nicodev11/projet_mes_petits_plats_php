@@ -24,7 +24,7 @@ if (!empty($_POST)) {
       # code message flash utilisateur ou mot de passe incorrect
     }
     
-  
+    $id = $pdo->lastInsertId();
 
     $_SESSION['user'] = [
       'id' => $user['id'],
@@ -35,7 +35,7 @@ if (!empty($_POST)) {
       'role' => $user['role'],
     ];
     
-    # header("location: profil.php");
+    header("location: profil.php");
     
   }
 }
@@ -53,6 +53,7 @@ if (!empty($_POST)) {
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="./style/style.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous"></script>
   <title>Mes petits plats</title>
@@ -71,13 +72,13 @@ if (!empty($_POST)) {
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0 fs-4 mx-auto">
             <li class="nav-item me-3">
-              <a class="nav-link active" aria-current="page" href="#">Accueil</a>
+              <a class="nav-link active" aria-current="page" href="/index.php">Accueil</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Catégories
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu dropdown-menu-nav">
                 <li><a class="dropdown-item fs-5" href="#">Entrées</a></li>
                 <li><hr class="dropdown-divider"></li>
                 <li><a class="dropdown-item fs-5" href="#">Plats</a></li>
@@ -94,11 +95,12 @@ if (!empty($_POST)) {
           </ul>
           <?php 
             if (isset($_SESSION['user']['id'])) { ?>
-              <a href="/logOut.php" class="btn btn-danger">Déconnexion</a>
+              <a href="/infos.php" class="btn btn-warning rounded me-2"><i class="bi bi-person-fill"></i></a>
+              <a class="btn btn-danger" href="/logOut.php">Déconnexion</a>
           <?php } else { ?>  
-            <button type="button" class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
+            <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
               Se connecter
-            </button>
+          </button>
           <?php } ?>
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
@@ -122,7 +124,7 @@ if (!empty($_POST)) {
                   </div>
                   <div class="modal-footer">
                     <p>Vous n'avez pas de compte ?</p>
-                    <button type="button" class="btn btn-primary">S'inscrire</button>
+                    <a href="/signUp.php" type="button" class="btn btn-primary">S'inscrire</a>
                   </div>
                 </div>
               </div>
