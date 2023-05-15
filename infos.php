@@ -25,6 +25,9 @@ if (!empty($_POST)) {
       'role' => ['ROLE_USER'],
     ];
 
+    header('location: showRecipes.php');
+
+    setFlashMessage('Les modifications de vos informations personnelles ont bien été apportées', 'success');
   }
 }
 

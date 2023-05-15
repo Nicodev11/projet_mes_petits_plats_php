@@ -2,6 +2,7 @@
 
 require_once 'lib/pdo.php';
 require_once 'lib//user.php';
+include './lib/messagesFlash.php';
 
 if (!empty($_POST)) {
   if (isset($_POST["email"], $_POST["password"]) && !empty($_POST["email"]) &&  !empty($_POST["password"])
@@ -100,8 +101,8 @@ if (!empty($_POST)) {
           <?php } else { ?>  
             <button class="btn btn-warning" data-bs-toggle="modal" data-bs-target="#exampleModal">
               Se connecter
-          </button>
-          <?php } ?>
+            </button>
+          
             <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -129,9 +130,11 @@ if (!empty($_POST)) {
                 </div>
               </div>
             </div>   
+          <?php } ?>
         </div>
       </div>
     </nav>
   </header>
+  <?php echo getFlashMessage() ?>
 
   <main>

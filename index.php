@@ -3,13 +3,11 @@ session_start();
 
 require_once './templates/header.php';
 
-
-if (isset($_SESSION['user'])) {?>
-   <h1><?=  $_SESSION['user']['firstname'] ?></h1><?php
-}
-
 ?>
 
+<div class="container">
+   <h1>accueil</h1>
+</div>
 
 <?php
 

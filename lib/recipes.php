@@ -17,7 +17,7 @@ function saveRecipe(PDO $pdo, string $title, string $description = null, string 
 }
 
 function updateRecipe(PDO $pdo, string $title, string $description, string $ingredients, string $instructions, int $category_id, string $image = null, int $id) {
-  $query = $pdo->prepare("UPDATE recipes SET (title = :title, description = :description, ingredients = :description, instructions = :instructions, category_id = :category_id, image = :image WHERE id = :id) ");
+  $query = $pdo->prepare("UPDATE recipes SET title = :title, description = :description, ingredients = :ingredients, instructions = :instructions, category_id = :category_id, image = :image WHERE id = :id");
   
   $query->bindParam(':id', $id, PDO::PARAM_INT);
   $query->bindParam(':title', $title, PDO::PARAM_STR);
@@ -31,12 +31,26 @@ function updateRecipe(PDO $pdo, string $title, string $description, string $ingr
 
 }
 
-function getRecipeById(PDO $pdo, int $user_id) {
+function deleteRecipes(PDO $pdo, INT $id) {
+  $query = $pdo->prepare("DELETE FROM recipes WHERE id = :id");
+  $query->bindParam(':id', $id, PDO::PARAM_INT);
+  $query->execute();
+}
+
+function getRecipeByUserId(PDO $pdo, int $user_id) {
   $query = $pdo->prepare("SELECT * FROM recipes WHERE user_id = :user_id");
   $query->bindParam(':user_id', $user_id, PDO::PARAM_INT);
   $query->execute();
 
-  return $query->fetch();
+  return $query->fetchAll();
+}
+
+function getRecipeById(PDO $pdo, int $id) {
+  $query = $pdo->prepare("SELECT * FROM recipes WHERE id = :id");
+  $query->bindParam(':id', $id, PDO::PARAM_INT);
+  $query->execute();
+
+  return $query->fetchAll();
 }
 
 function getRecipes(PDO $pdo, int $limit = null) {
@@ -55,4 +69,13 @@ function getRecipes(PDO $pdo, int $limit = null) {
 
   $query->execute();
   return $query->fetchAll();
+}
+
+function getRecipeImage($image) {
+  if ($image == null) {
+      $imagePath = _PATH_ASSETS_IMAGES_.'recipe_default.jpg';
+  } else {
+      $imagePath =  _PATH_RECIPES_UPLOAD_.$image;
+  }
+  return $imagePath;
 }
